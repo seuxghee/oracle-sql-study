@@ -1,4 +1,7 @@
-select o.deptcode "Áø·á°úÄÚµå", d.deptkorname "Áø·á°ú¸í", count(*) "³»¿ø¼ö"
+query2
+ë¬¸ì œ:2023ë…„ 01ì›” 01ì¼ ~ 2024ë…„ 12ì›”31ì¼ê¹Œì§€ì˜ ì§„ë£Œê³¼ë³„ í™˜ìë‚´ì›ìˆ˜
+	
+select o.deptcode "ì§„ë£Œê³¼ì½”ë“œ", d.deptkorname "ì§„ë£Œê³¼ëª…", count(*) "ë‚´ì›ìˆ˜"
 from opdacpt o, deptcodes d
 where o.deptcode = d.deptcode
 	and o.acptcancelflag = 0
