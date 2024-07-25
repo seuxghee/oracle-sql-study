@@ -1,4 +1,7 @@
-select '������' "������ڵ�",
+query3
+문제2023년 01월 01일 ~ 2024년 12월 31일까지의 진료과별 환자내원수(가로 정렬)
+	
+select '내원수' "진료과코드",
 	   count(decode(o.deptcode, 'AK', 1)) "AK",
 	   count(decode(o.deptcode, 'AK2', 1)) "AK2",
 	   count(decode(o.deptcode, 'ANE', 1)) "ANE",
