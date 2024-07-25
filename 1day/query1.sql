@@ -1,4 +1,7 @@
-select o.patid "È¯ÀÚID", p.patname "È¯ÀÚ¸í", to_char(to_date(o.opddate, 'yyyymmdd'), 'yyyy/mm/dd') "³»¿øÀÏ", o.deptcode "Áø·á°úÄÚµå", d.deptkorname "Áø·á°ú¸í", o.chrgdrid "´ã´çÀÇID", u.usrkorname "´ã´çÀÇ»ç¸í"
+query1 
+ë¬¸ì œ : 2023ë…„ 01ì›” 01ì¼ ~2024ë…„12ì›” 31ì¼ê¹Œì§€ì˜ ì™¸ë˜í™˜ìë¦¬ìŠ¤íŠ¸
+	
+select o.patid "í™˜ìID", p.patname "í™˜ìëª…", to_char(to_date(o.opddate, 'yyyymmdd'), 'yyyy/mm/dd') "ë‚´ì›ì¼", o.deptcode "ì§„ë£Œê³¼ì½”ë“œ", d.deptkorname "ì§„ë£Œê³¼ëª…", o.chrgdrid "ë‹´ë‹¹ì˜ID", u.usrkorname "ë‹´ë‹¹ì˜ì‚¬ëª…"
 from opdacpt o, patmst p, deptcodes d, usrmst u
 where o.patid = p.patid
 	and o.deptcode = d.deptcode
