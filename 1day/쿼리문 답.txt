@@ -1,0 +1,85 @@
+query1
+
+select o.patid "환자ID", p.patname "환자명", to_char(to_date(o.opddate, 'yyyymmdd'), 'yyyy/mm/dd') "내원일", o.deptcode "진료과코드", d.deptkorname "진료과명", o.chrgdrid "담당의ID", u.usrkorname "담당의사명"
+from opdacpt o, patmst p, deptcodes d, usrmst u
+where o.patid = p.patid
+		and o.deptcode = d.deptcode   
+		and o.chrgdrid = u.usrid
+		and o.acptcancelflag = 0
+		and o.ipdflag = 0
+		and o.opddate between '20230101' and '20241231'
+order by o.opddate, o.patid 
+
+query2
+
+select o.deptcode "진료과코드", d.deptkorname "진료과명", count(*) "내원수"
+from opdacpt o, deptcodes d
+where o.deptcode = d.deptcode
+	and o.acptcancelflag = 0
+	and o.ipdflag = 0
+	and o.opddate between '20230101' and '20241231'
+group by o.deptcode, d.deptkorname
+order by o.deptcode
+
+query3
+
+select '내원수' "진료과코드",
+	   count(decode(o.deptcode, 'AK', 1)) "AK",
+	   count(decode(o.deptcode, 'AK2', 1)) "AK2",
+	   count(decode(o.deptcode, 'ANE', 1)) "ANE",
+	   count(decode(o.deptcode, 'CV02', 1)) "CV02",
+	   count(decode(o.deptcode, 'ER', 1)) "ER",
+	   count(decode(o.deptcode, 'GS08', 1)) "GS08",
+	   count(decode(o.deptcode, 'HC', 1)) "HC",
+	   count(decode(o.deptcode, 'IM05', 1)) "IM05",
+       count(decode(o.deptcode, 'IM13', 1)) "IM13",
+	   count(decode(o.deptcode, 'IM16', 1)) "IM16",
+	   count(decode(o.deptcode, 'IM22', 1)) "IM22",
+	   count(decode(o.deptcode, 'IM24', 1)) "IM24",
+	   count(decode(o.deptcode, 'IM25', 1)) "IM25",
+	   count(decode(o.deptcode, 'IM28', 1)) "IM28",
+	   count(decode(o.deptcode, 'IM29', 1)) "IM29",
+	   count(decode(o.deptcode, 'NE03', 1)) "NE03",
+	   count(decode(o.deptcode, 'NR01', 1)) "NR01",
+	   count(decode(o.deptcode, 'NS01', 1)) "NS01",
+	   count(decode(o.deptcode, 'OS01', 1)) "OS01",
+	   count(decode(o.deptcode, 'OS15', 1)) "OS15",
+	   count(decode(o.deptcode, 'OS18', 1)) "OS18",
+	   count(decode(o.deptcode, 'OS19', 1)) "OS19",
+	   count(decode(o.deptcode, 'OS22', 1)) "OS22",
+	   count(decode(o.deptcode, 'OS23', 1)) "OS23",
+	   count(decode(o.deptcode, 'OS25', 1)) "OS25",
+	   count(decode(o.deptcode, 'OS26', 1)) "OS26",
+	   count(decode(o.deptcode, 'OS27', 1)) "OS27",
+	   count(decode(o.deptcode, 'PD02', 1)) "PD02",
+	   count(decode(o.deptcode, 'PU', 1)) "PU",
+	   count(decode(o.deptcode, 'PU01', 1)) "PU01",
+	   count(decode(o.deptcode, 'PU01', 1)) "PU01"
+from opdacpt o
+where o.acptcancelflag = 0
+	and o.ipdflag = 0
+	and o.opddate between '20230101' and '20241231'
+
+query4
+
+select substr(opddate, 1, 4) "연도", count(distinct patid) "실인원", count(patid) "연인원"
+from opdacpt
+where acptcancelflag = 0
+	and ipdflag = 0
+group by substr(opddate, 1, 4)
+order by substr(opddate, 1, 4) desc
+
+query5
+
+select d.tablename, d.cname column_name, d.cdatatype data_type, decode(d.pkflag, 1, 'P') PK, decode(d.notnullflag, 1, 'NOT NULL') NULL_YN, d.memo
+from datadictionary d
+where clas = 88
+	and tablename in ('OPDACPT', 'PATMST')
+	and histseq = (select max(histseq)
+				   from datadictionary d2
+				   where d.clas = d2.clas
+				   		 and d.tablename = d2.tablename
+				   		 and d.cname = d2.cname)
+order by tablename, displayseq
+
+	
